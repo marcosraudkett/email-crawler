@@ -1,7 +1,7 @@
 # email-crawler
 A PHP Email Crawler. Crawl a single website or multiple websites for email address(s) using simple_html_dom
 
-### Usage
+### Include Email Crawler
 ```php
 <?php
   /* use autoloader */
@@ -9,7 +9,7 @@ A PHP Email Crawler. Crawl a single website or multiple websites for email addre
 ?>
 ```
 
-### Usage #2
+### Include Email Crawler #2
 ```php
 <?php
   /* include email_crawler */
@@ -17,7 +17,7 @@ A PHP Email Crawler. Crawl a single website or multiple websites for email addre
 ?>
 ```
 
-### Crawl a url
+### Usage
 ```php
 <?php
   /* Your url that you wish to crawl */
