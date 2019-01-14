@@ -36,3 +36,6 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
   }
 ?>
 ```
+
+## Contributing
+Feel free to help this project or if you've found a bug then feel free to visit [the issues page](https://github.com/juliuste/tallink/issues).
