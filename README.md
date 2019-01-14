@@ -4,8 +4,16 @@ A PHP Email Crawler. Crawl a single website or multiple websites for email addre
 ### Usage
 ```php
 <?php
-  require_once 'classes/Tallink.class.php';
-  /* or use autoloader */
+  /* use autoloader */
+  require_once "../includes/init.php";
+?>
+```
+
+### Usage #2
+```php
+<?php
+  /* include email_crawler */
+  require_once "../classes/email_crawler.class.php";
 ?>
 ```
 
