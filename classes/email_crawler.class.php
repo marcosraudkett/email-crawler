@@ -31,7 +31,7 @@ class email_crawler
 	* @param $url
 	* @return string
 	*/
-	public static function crawl_site($url) 
+	public static function crawl_site($url, $type = null) 
 	{
 
 		if(isset($url))
@@ -50,8 +50,12 @@ class email_crawler
         		foreach($list_of_elements as $element) 
         		{
         			/* crawl element */
-        			$result = email_crawler::crawl_site_for_element($clean_url, $element);
+        			$result['results'][] = array(
+        				'element' => $element,
+        				'email' => email_crawler::crawl_site_for_email($clean_url, $element, $type)
+        			);
         		}
+
         		/* return results */
         		return $result;
 
@@ -67,7 +71,7 @@ class email_crawler
 	* @param $url
 	* @return string
 	*/
-	public static function crawl_site_for_element($url, $element) 
+	public static function crawl_site_for_email($url, $element, $type = null) 
 	{
 
 		/* crawl url */
@@ -78,10 +82,29 @@ class email_crawler
 		foreach($find_element as $this_element) 
     	{
 
-    		/* make mailto: empty inside href */
-    		$result = str_replace('mailto:','', $this_element->href);
-    		/* clean out the parameters if it has any */
-			$result = strtok($result, '?');
+    		if($this_element != 'a') 
+    		{
+    			/* if the element is not a link but plaintext */
+    			$pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
+    			/* match the element with pattern */
+				preg_match_all($pattern, $this_element->plaintext, $matches);
+				if($type != 'unique') 
+				{
+					/* to crab unique */
+					$unique = array_unique($matches[0]);
+					/* to string */
+					$result = implode(' ', $unique);
+				} else {
+					/* all matches (not unique) */
+					$result = $matches;
+				}
+    		} else {
+	    		/* make mailto: empty inside href */
+	    		$result = str_replace('mailto:','', $this_element->href);
+	    		/* clean out the parameters if it has any */
+				$result = strtok($result, '?');
+    		}
+
 			/* validate if email */
 			if(email_crawler::validate_email($result) == true)
 			{
@@ -102,7 +125,7 @@ class email_crawler
 	{
 
 		/* add more elements here if needed */
-		$elements = array('a');
+		$elements = array('a', 'p');
 
 		return $elements;
 
