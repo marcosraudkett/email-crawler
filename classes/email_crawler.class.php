@@ -29,7 +29,8 @@ class email_crawler
 	* Crawl a remote site
 	*
 	* @param $url
-	* @return string
+	* @param $type (unique or null)
+	* @return array
 	*/
 	public static function crawl_site($url, $type = null) 
 	{
@@ -69,6 +70,7 @@ class email_crawler
 	* Look for an element
 	*
 	* @param $url
+	* @param $type (unique or null)
 	* @return string
 	*/
 	public static function crawl_site_for_email($url, $element, $type = null) 
