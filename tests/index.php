@@ -12,10 +12,10 @@
 
 			$crawl = email_crawler::crawl_site($_POST['url']);
 
-			if($crawl != '') {
-				echo $crawl;
-			} else {
-				echo 'No emails were found..';
+			/* foreach email */
+			foreach($crawl['results'] as $result) 
+			{
+				echo $result['email'];
 			}
 
 		}
