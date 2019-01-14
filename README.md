@@ -23,5 +23,12 @@ A PHP Email Crawler. Crawl a single website or multiple websites for email addre
   /* Your url that you wish to crawl */
   $url = 'https://marcosraudkett.com';
   $crawl = email_crawler::crawl_site($url);
+  
+  /* foreach email */
+  foreach($crawl['results'] as $result) 
+  {
+    echo $result['element']; /* prints out the element this email address was found */
+    echo $result['email']; /* prints out each email address on that page */
+  }
 ?>
 ```
