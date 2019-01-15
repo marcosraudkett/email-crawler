@@ -9,7 +9,7 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 ```php
 <?php
   /* use autoloader */
-  require_once "../includes/init.php";
+  require_once "/path/to/includes/init.php";
 ?>
 ```
 
@@ -17,7 +17,7 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 ```php
 <?php
   /* include email_crawler */
-  require_once "../classes/email_crawler.class.php";
+  require_once "/path/to/classes/email_crawler.class.php";
 ?>
 ```
 
