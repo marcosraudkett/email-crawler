@@ -5,7 +5,7 @@ You can test this crawler here:
 https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
 
-### Include Email Crawler
+### Installation
 ```php
 <?php
   /* use autoloader */
@@ -13,7 +13,7 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 ?>
 ```
 
-### Include Email Crawler #2
+### Manual Installation
 ```php
 <?php
   /* include email_crawler */
