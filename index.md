@@ -1,37 +1,41 @@
-## Welcome to GitHub Pages
+# Simple Email Crawler
+A PHP Email Crawler. Crawl a single website or multiple websites for email address(s) using simple_html_dom
+You can test this crawler here:
 
-You can use the [editor on GitHub](https://github.com/marcosraudkett/email-crawler/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+### Include Email Crawler
+```php
+<?php
+  /* use autoloader */
+  require_once "../includes/init.php";
+?>
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Include Email Crawler #2
+```php
+<?php
+  /* include email_crawler */
+  require_once "../classes/email_crawler.class.php";
+?>
+```
 
-### Jekyll Themes
+### Usage
+```php
+<?php
+  /* Your url that you wish to crawl */
+  $url = 'https://marcosraudkett.com';
+  $crawl = email_crawler::crawl_site($url);
+  
+  /* foreach email */
+  foreach($crawl['results'] as $result) 
+  {
+    echo $result['element']; /* prints out the element this email address was found */
+    echo $result['email']; /* prints out each email address on that page */
+  }
+?>
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/marcosraudkett/email-crawler/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## Contributing
+Feel free to help this project or if you've found a bug then feel free to visit [the issues page](https://github.com/juliuste/tallink/issues).
