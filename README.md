@@ -7,7 +7,7 @@ You can test this crawler here:
 https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
 ### todo
--> Depth search (navigates through a website)
+-> Depth search (navigates through a website)<br>
 -> Fix unique search
 
 ### Installation
