@@ -8,7 +8,8 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
 ### todo
 -> Depth search (navigates through a website)<br>
--> Fix unique search
+-> Fix unique search<br>
+-> Multiple site support
 
 ### Installation
 ```
