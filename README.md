@@ -11,22 +11,27 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 -> Fix unique search
 
 ### Installation
+```
+git clone https://github.com/marcosraudkett/simple-email-crawler.git
+```
+
+### Usage
+Including with autoloader:
 ```php
 <?php
   /* use autoloader */
   require_once "/path/to/includes/init.php";
 ?>
 ```
+including without autoloader: 
 
-### Manual Installation
 ```php
 <?php
   /* include email_crawler */
   require_once "/path/to/classes/email_crawler.class.php";
 ?>
 ```
-
-### Usage
+Crawling a site
 ```php
 <?php
   /* Your url that you wish to crawl */
