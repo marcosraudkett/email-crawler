@@ -6,6 +6,9 @@ You can test this crawler here:
 
 https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
+### todo
+-> Depth search (navigates through a website)
+-> Fix unique search
 
 ### Installation
 ```php
