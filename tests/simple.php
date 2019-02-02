@@ -13,24 +13,19 @@
 	        $_POST['url'] = htmlspecialchars($_POST['url']);
 	        $_POST['url'] = str_replace("'", "&#39;", $_POST['url']);
 
-			/* ========================================= */
+			/* settings: unique: true, depth: null, print_type: list (comma separated) */
+			$list_crawl = email_crawler::crawl_site($_POST['url'], true, null, 'list');
+			if($list_crawl != '')
+			{
+				echo '<b>Comma separated (unique):</b> <br><br>';
+				print_r($list_crawl);
+			}
 
-			/* printing the whole output (unique is true, if you set it to false you will also get all the empty elements) */
-			echo '<b>Output:</b> <br><br>';
-			$crawl = email_crawler::crawl_site($_POST['url'], true, true);
-			
-			
-			
-			echo '<pre>';
-			
-				var_dump($crawl);
-			
-			echo '</pre>';
-
-			
-
-
+		} else {
+			echo 'Nothing found!';
 		}
+
+
 	}
 
 ?>
