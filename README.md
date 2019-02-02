@@ -7,8 +7,9 @@ You can test this crawler here:
 https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
 ### todo
--> Depth search (crawl through other pages on the target site)<br>
--> Multiple site support
+- [ ] Depth search (crawl through other pages on the target site)<br>
+- [ ] Multiple site support
+- [x] Unique fix
 
 ### Installation
 ```
