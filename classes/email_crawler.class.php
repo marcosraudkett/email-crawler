@@ -1,7 +1,5 @@
 <?php
 
-include('../vendor/simple_html_dom/simple_html_dom.php');
-
 /**
  * Email Crawler class
  *
@@ -29,10 +27,11 @@ class email_crawler
 	* Crawl a remote site
 	*
 	* @param $url
-	* @param $type (unique or null)
+	* @param $unique (true or null)
+	* @param $depth
 	* @return array
 	*/
-	public static function crawl_site($url, $type = null) 
+	public static function crawl_site($url, $unique = null, $depth = null, $print_type = null) 
 	{
 
 		if(isset($url))
@@ -51,14 +50,57 @@ class email_crawler
         		foreach($list_of_elements as $element) 
         		{
         			/* crawl element */
-        			$result['results'][] = array(
-        				'element' => $element,
-        				'email' => email_crawler::crawl_site_for_email($clean_url, $element, $type)
-        			);
+    				$email = email_crawler::crawl_site_for_email($clean_url, $element);
+        			if($email != '')
+        			{
+	        			$result['results'][] = array(
+	        				'element' => $element,
+	        				'email' => $email
+	        			);
+        			}
         		}
 
-        		/* return results */
-        		return $result;
+        		if(isset($print_type))
+        		{
+	        		switch($print_type)
+	        		{
+	        			default:
+	        			case "list":
+	        				$list = array();
+	        				foreach($result['results'] as $result_to_list)
+	        				{
+	        					$list[] = $result_to_list['email'];
+	        				}
+	        				if($unique == true) { $list = implode(',', array_unique($list)); } else { $list = implode(',', $list); }
+	        				return $list;
+	        			break;
+
+	        			case "emails_only_plain":
+	        				if($result['results'] != '')
+							{
+								if(count($result['results']) != 0) 
+								{
+									$list = array();
+									foreach($result['results'] as $result) 
+									{
+										$list[] = $result['email'];
+									}
+									if($unique == true) { $list = implode(' ', array_unique($list)); } else { $list = implode(' ', $list); }
+									return $list;
+								}
+							}
+	        			break;
+	        		}
+        		} else {
+        			if($unique != true) 
+					{
+	        			/* return unique results */
+	        			return array_unique($result);
+	        		} else {
+	        			/* return results */
+	        			return $result;
+	        		}
+        		}
 
         	}
 
@@ -70,10 +112,9 @@ class email_crawler
 	* Look for an element
 	*
 	* @param $url
-	* @param $type (unique or null)
 	* @return string
 	*/
-	public static function crawl_site_for_email($url, $element, $type = null) 
+	public static function crawl_site_for_email($url, $element) 
 	{
 
 		/* crawl url */
@@ -90,16 +131,10 @@ class email_crawler
     			$pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
     			/* match the element with pattern */
 				preg_match_all($pattern, $this_element->plaintext, $matches);
-				if($type != 'unique') 
-				{
-					/* to crab unique */
-					$unique = array_unique($matches[0]);
-					/* to string */
-					$result = implode(' ', $unique);
-				} else {
-					/* all matches (not unique) */
-					$result = $matches;
-				}
+				/* all matches (not unique) */
+				$result = $matches[0];
+				/* to string */
+				$result = implode(' ', $result);
     		} else {
 	    		/* make mailto: empty inside href */
 	    		$result = str_replace('mailto:','', $this_element->href);
@@ -126,8 +161,14 @@ class email_crawler
 	public static function elements() 
 	{
 
-		/* add more elements here if needed */
-		$elements = array('a', 'p');
+		/* elements you wish to crawl through */
+		$elements = array(
+			'a', 
+			'p', 
+			'b',
+			'div',
+			'span'
+		);
 
 		return $elements;
 
