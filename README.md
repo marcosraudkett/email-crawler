@@ -71,5 +71,18 @@ Crawling a site (plain list)
 ?>
 ```
 
+### Features
+<ul>
+  <li>Crawl emails from a website(s)</li>
+  <li>Crawl's emails even if the @ sign is (at) or something else! (check classes/config.class.php)</li>
+  <li>Deep crawl (crawler navigates through the target site)</li>
+  <li>Easily output into a comma separated list or in plaintext</li>
+  <li>Bulk crawl websites (wip)</li>
+  <li>Filter out unique email address(s)</li>
+  <li>Tests site connection and validates link before crawling</li>
+  <li>Validates emails before returning to make sure their valid</li>
+</ul>
+
+
 ## Contributing
 Feel free to help this project or if you've found a bug then feel free to visit [the issues page](https://github.com/marcosraudkett/simple-email-crawler/issues).
