@@ -6,24 +6,33 @@ You can test this crawler here:
 
 https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
+### todo
+-> Depth search (navigates through a website)<br>
+-> Fix unique search<br>
+-> Multiple site support
 
 ### Installation
+```
+git clone https://github.com/marcosraudkett/simple-email-crawler.git
+```
+
+### Usage
+Including with autoloader:
 ```php
 <?php
   /* use autoloader */
   require_once "/path/to/includes/init.php";
 ?>
 ```
+including without autoloader: 
 
-### Manual Installation
 ```php
 <?php
   /* include email_crawler */
   require_once "/path/to/classes/email_crawler.class.php";
 ?>
 ```
-
-### Usage
+Crawling a site
 ```php
 <?php
   /* Your url that you wish to crawl */
@@ -40,4 +49,4 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 ```
 
 ## Contributing
-Feel free to help this project or if you've found a bug then feel free to visit [the issues page](https://github.com/juliuste/tallink/issues).
+Feel free to help this project or if you've found a bug then feel free to visit [the issues page](https://github.com/marcosraudkett/simple-email-crawler/issues).
