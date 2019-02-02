@@ -363,7 +363,7 @@ class email_crawler
 		/* email syntax */
 		$es = '@';
 		/* replace */
-		$replaced = str_replace(config::SYNTAX_LIST, $es, $replace_in);
+		$replaced = str_replace(config::SYNTAX_LIST(), $es, $replace_in);
 		/* return replaced */
         return $replaced;
 
@@ -378,7 +378,7 @@ class email_crawler
 	{
 
 		/* syntaxList */
-		$syntaxList = config::SYNTAX_LIST;
+		$syntaxList = config::SYNTAX_LIST();
 		/* return syntaxList */
 		return $syntaxList;
 
@@ -393,7 +393,7 @@ class email_crawler
 	{
 
 		/* emailSyntaxList you wish to crawl through */
-		$emailSyntaxList = config::PATTERN_LIST;
+		$emailSyntaxList = config::PATTERN_LIST();
 		/* return emailSyntaxList */
 		return $emailSyntaxList;
 
@@ -408,7 +408,7 @@ class email_crawler
 	{
 
 		/* elements you wish to crawl through */
-		$elements = config::ELEMENT_LIST;
+		$elements = config::ELEMENT_LIST();
 		/* return elements */
 		return $elements;
 
@@ -423,7 +423,7 @@ class email_crawler
 	{
 
 		/* menuElements you wish to crawl through */
-		$menuElements = config::MENU_ELEMENT_LIST;
+		$menuElements = config::MENU_ELEMENT_LIST();
 		/* return menuElements */
 		return $menuElements;
 
