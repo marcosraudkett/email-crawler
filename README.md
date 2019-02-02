@@ -7,9 +7,9 @@ You can test this crawler here:
 https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
 ### todo
--> Depth search (navigates through a website)<br>
--> Fix unique search<br>
--> Multiple site support
+- [ ] Depth search (crawl through other pages on the target site)<br>
+- [ ] Multiple site support
+- [x] Unique fix
 
 ### Installation
 ```
@@ -45,6 +45,28 @@ Crawling a site
     echo $result['element']; /* prints out the element this email address was found */
     echo $result['email']; /* prints out each email address on that page */
   }
+?>
+```
+
+Crawling a site (into a comma separated list)
+```php
+<?php
+  /* Your url that you wish to crawl */
+  $url = 'https://marcosraudkett.com';
+  /* settings: unique: true, depth: null, print_type: list (comma separated) */
+  $crawl = email_crawler::crawl_site($url, true, null, 'list');
+  if($crawl != '') { print_r($crawl); }
+?>
+```
+
+Crawling a site (plain list)
+```php
+<?php
+  /* Your url that you wish to crawl */
+  $url = 'https://marcosraudkett.com';
+  /* settings: unique: false, depth: null, print_type: emails_only_plain */
+  $crawl = email_crawler::crawl_site($url, false, null, 'emails_only_plain');
+  if($crawl != '') { print_r($crawl); }
 ?>
 ```
 
