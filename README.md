@@ -8,7 +8,7 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
 
 ### Features
 <ul>
-  <li>Crawl emails from a website(s)</li>
+  <li>Crawl emails from target website(s)</li>
   <li>Crawl's emails even if the @ sign is (at) or something else! (check classes/config.class.php)</li>
   <li>Deep crawl (crawler navigates through the target site)</li>
   <li>Easily output into a comma separated list or in plaintext</li>
