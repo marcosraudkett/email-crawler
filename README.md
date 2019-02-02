@@ -50,15 +50,27 @@ Crawling a site
 ```php
 <?php
   /* Your url that you wish to crawl */
-  $url = 'https://marcosraudkett.com';
+  $url = 'http://example-site.com';
   $crawl = email_crawler::crawl_site($url);
   
-  /* foreach email */
-  foreach($crawl['results'] as $result) 
+  if($crawl['results'] != '')
   {
-    echo $result['element']; /* prints out the element this email address was found */
-    echo $result['email']; /* prints out each email address on that page */
+    if(count($crawl['results']) != 0) 
+    {
+      foreach($crawl['results'] as $result) 
+      {
+        echo $result['email'].' (Element: '.$result['element'].') <br>'; 
+      }
+    }
   }
+  
+  /* 
+  Example output:
+    info@examplemail.com (Element: a) 
+    info@example.com (Element: p) 
+    info@divexample.com (Element: div) 
+    info@spanexample.com (Element: span) 
+  */
 ?>
 ```
 
@@ -66,10 +78,15 @@ Crawling a site (into a comma separated list)
 ```php
 <?php
   /* Your url that you wish to crawl */
-  $url = 'https://marcosraudkett.com';
+  $url = 'http://example-site.com';
   /* settings: unique: true, depth: null, print_type: list (comma separated) */
   $crawl = email_crawler::crawl_site($url, true, null, 'list');
   if($crawl != '') { print_r($crawl); }
+  
+  /* 
+  Example output:
+    info@examplemail.com, info@example.com, info@divexample.com, info@spanexample.com
+  */
 ?>
 ```
 
@@ -77,10 +94,16 @@ Crawling a site (plain list)
 ```php
 <?php
   /* Your url that you wish to crawl */
-  $url = 'https://marcosraudkett.com';
+  $url = 'http://example-site.com';
   /* settings: unique: false, depth: null, print_type: emails_only_plain */
   $crawl = email_crawler::crawl_site($url, false, null, 'emails_only_plain');
   if($crawl != '') { print_r($crawl); }
+  
+  /* 
+  Example output:
+    info@examplemail.com info@example.com info@divexample.com info@spanexample.com
+  */
+  
 ?>
 ```
 
