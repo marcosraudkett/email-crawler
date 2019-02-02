@@ -11,3 +11,4 @@ matrix:
   
       script:
         - chmod a+x classes/email_crawler.class.php
+        - chmod a+x classes/config.class.php
