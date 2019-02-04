@@ -1,5 +1,6 @@
 <?php
-	
+	/* include tests page menu */
+	require_once 'includes/menu.php';
 	/* inlcude autoloader or email_crawler */
 	require_once "../includes/init.php";
 
