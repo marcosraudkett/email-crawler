@@ -41,7 +41,7 @@ class email_crawler
 	public static function crawl_site($url, $unique = null, $depth = null, $print_type = null) 
 	{
 		/* useragent */
-		self::set_useragent('SEC (http://whx.io/SEC)');
+		//self::set_useragent('SEC (http://whx.io/SEC)');
 
 		/* if url is set*/
 		if(isset($url))
@@ -64,25 +64,44 @@ class email_crawler
         			{	
         				/* list of menuElements to crawl */
         				$list_of_menuElements = self::menuElements();
+        				/* empty array */
+        				$list = array();
         				/* foreach menuElements */
         				foreach($list_of_menuElements as $menuElement) 
         				{
 	        				/* depth crawl */
 	    					$email = self::depth_crawl_site_for_email($clean_url, $element, $menuElement);
+	    					$list[] = $email;
     					}
+    					$email = $list;
         			} else {
         				/* crawl first page only */
     					$email = self::crawl_site_for_email($clean_url, $element);
         			}
-					/* if email is not empty */
-        			if($email != '')
-        			{
-						/* results */
-	        			$result['results'][] = array(
-	        				'element' => $element,
-	        				'email' => $email
-	        			);
-        			}
+					if($depth == true)
+					{
+						/* if email is not empty */
+	        			if($email != '')
+	        			{
+	        				/* results */
+		        			$result['results'][] = array(
+		        				'site_url' => $element,
+		        				'element' => $element,
+		        				'email' => $email
+		        			);	
+	        			}
+					} else {
+						/* if email is not empty */
+	        			if($email != '')
+	        			{
+							/* results */
+		        			$result['results'][] = array(
+		        				'element' => $element,
+		        				'email' => $email
+		        			);	
+
+	        			}
+					}
         		}
 
 				/* check if print type isset */
@@ -137,6 +156,7 @@ class email_crawler
         			/* if result isset */
         			if(isset($result))
         			{
+
         				/* if unique true */
 	        			if($unique == true) 
 						{
@@ -180,12 +200,13 @@ class email_crawler
 		foreach($find_element as $this_element) 
     	{
 
+			/* if the element is not a link but plaintext */
     		if($this_element != 'a') 
     		{
-    			/* if the element is not a link but plaintext */
+				/* foreach emailPatternList */
 	    		foreach(self::emailPatternList() as $pattern)
 	    		{
-	    			/* match the element with pattern */
+    				/* match the element with pattern */
 					preg_match_all($pattern, $this_element->plaintext, $matches);
 					$list = array();
 					foreach($matches[0] as $match)
@@ -194,6 +215,8 @@ class email_crawler
 						$result = $match;
 						/* replacer */
 						$result = self::syntax_replacer($result);
+						/* remove spaces from email string */
+			    		$result = str_replace(' ', '', $result);
 						/* validate email */
 						if(self::validate_email($result) == true)
 						{
@@ -209,17 +232,18 @@ class email_crawler
 				foreach($this_element->href as $match)
 				{
 		    		/* make mailto: empty inside href */
-		    		$result = str_replace('mailto:','', $this_element->href);
+		    		$result = str_replace('mailto:','', $match);
 		    		/* clean out the parameters if it has any */
 					$result = strtok($result, '?');
 		    		/* replacer */
 		    		$result = self::syntax_replacer($result);
+		    		/* remove spaces from email string */
+		    		$result = str_replace(' ', '', $result);
 		    		/* validate email */
 		    		if(self::validate_email($result) == true)
 					{
 						$result = $result;
 					}
-
 		    		$list[] = $result;
 		    	}
 		    	$list = implode(' ', $list);
@@ -255,100 +279,97 @@ class email_crawler
 		/* crawl url */
 		$get_html = file_get_html('http://'.$url);
 		/* find all url elements */
-		$find_element = $get_html->find($menuElement);
-		/* foreach menuElement */
-		foreach($find_element as $thisMenuElement)
+		$menuLink = $get_html->find($menuElement);
+		/* foreach menuLink */
+		foreach($menuLink as $menuLinkContent) 
 		{
-			/* find thisMenuElement */
-			$menuLink = $get_html->find($thisMenuElement);
-			/* foreach menuLink */
-			foreach($menuLink as $menuLinkContent) 
+			/* get that menuLink href */
+			$menuLinkContent = 'http://'.$url.'/'.$menuLinkContent->href;
+			$menuLinkContentClean = self::clean_url($menuLinkContent);
+			/* only crawl sites that have the same host */
+			if (strpos($menuLinkContentClean, $url) !== false) 
 			{
-				/* get that menuLink href */
-				$menuLinkContent = $menuLinkContent->href;
-				$menuLinkContentClean = self::clean_url($menuLinkContent);
-				/* only crawl sites that have the same host */
-				if (strpos($menuLinkContentClean, $url) !== false) 
+				/* make sure that it's a valid link */
+				if(self::validate_url($menuLinkContent) == true)
 				{
-					/* make sure that it's a valid link */
-					if(self::validate_url($menuLinkContent) == true)
-					{
-						/* check url */
-			        	$clean_url = self::clean_url($menuLinkContent);
-			        	/* test url */
-			        	$test_url = self::test_url($clean_url);
-			        	if($test_url == true) 
-	        			{
-				        	/* get that page html */
-				        	$this_page = file_get_html('http://'.$clean_url);
-				        	/* find all url elements */
-							$find_depth_element = $this_page->find($element);
-							/* foreach element on that page */
-							foreach($find_depth_element as $this_element) 
-					    	{
-
-					    		if($this_element != 'a') 
+					/* check url */
+		        	$clean_url = self::clean_url($menuLinkContent);
+		        	/* test url */
+		        	$test_url = self::test_url($clean_url);
+		        	if($test_url == true) 
+        			{
+			        	/* get that page html */
+			        	$this_page = file_get_html('http://'.$clean_url);
+			        	/* find all url elements */
+						$find_depth_element = $this_page->find($element);
+						/* foreach element on that page */
+						foreach($find_depth_element as $this_element) 
+				    	{
+			    			/* if the element is not a link but plaintext */
+				    		if($this_element != 'a') 
+				    		{
+								/* foreach emailPatternList */
+					    		foreach(self::emailPatternList() as $pattern)
 					    		{
-					    			/* if the element is not a link but plaintext */
-						    		foreach(self::emailPatternList() as $pattern)
-						    		{
-						    			/* match the element with pattern */
-										preg_match_all($pattern, $this_element->plaintext, $matches);
-										$list = array();
-										foreach($matches[0] as $match)
-										{
-											/* all matches (not unique) */
-											$result = $match;
-											/* replacer */
-											$result = self::syntax_replacer($result);
-											/* validate email */
-											if(self::validate_email($result) == true)
-											{
-												$result = $result;
-											}
-											/* add result to list */
-											$list[] = $result;
-										}
-										$list = implode(' ', $list);
-									}
-					    		} else {
-					    			$list = array();
-									foreach($this_element->href as $match)
+				    				/* match the element with pattern */
+									preg_match_all($pattern, $this_element->plaintext, $matches);
+									$list = array();
+									foreach($matches[0] as $match)
 									{
-							    		/* make mailto: empty inside href */
-							    		$result = str_replace('mailto:','', $this_element->href);
-							    		/* clean out the parameters if it has any */
-										$result = strtok($result, '?');
-							    		/* replacer */
-							    		$result = self::syntax_replacer($result);
-							    		/* validate email */
-							    		if(self::validate_email($result) == true)
+										/* all matches (not unique) */
+										$result = $match;
+										/* replacer */
+										$result = self::syntax_replacer($result);
+										/* remove spaces from email string */
+						    			$result = str_replace(' ', '', $result);
+										/* validate email */
+										if(self::validate_email($result) == true)
 										{
 											$result = $result;
 										}
-										/* add result to list */
-							    		$list[] = $result;
-							    	}
-							    	$list = implode(' ', $list);
-					    		}
-
-					    		if(isset($result))
-					    		{	
-					    			$result = explode(' ', $result);
-									foreach($result as $results)
-									{
-										/* return validated email */
-										return $results;
+										/* result */
+										$list[] = $result;
 									}
-					    		}
+									$list = implode(' ', $list);
+								}
+				    		} else {
+				    			$list = array();
+								foreach($this_element->href as $match)
+								{
+						    		/* make mailto: empty inside href */
+						    		$result = str_replace('mailto:','', $match);
+						    		/* remove spaces from email string */
+						    		$result = str_replace(' ', '', $result);
+						    		/* clean out the parameters if it has any */
+									$result = strtok($result, '?');
+						    		/* replacer */
+						    		$result = self::syntax_replacer($result);
+						    		/* validate email */
+						    		if(self::validate_email($result) == true)
+									{
+										$result = $result;
+									}
+						    		$list[] = $result;
+						    	}
+						    	$list = implode(' ', $list);
+				    		}
 
-					    	}
-					    }
+				    		if(isset($result))
+				    		{	
+				    			$result = explode(' ', $result);
+								foreach($result as $results)
+								{
+				    				//var_dump($result);
+									/* return validated email */
+									return $results;
+								}
+				    		}
+
+				    	}
 				    }
-				}
-		    }
+			    }
+			}
 	    }
-
 	}
 
 	/**
@@ -431,7 +452,7 @@ class email_crawler
 
 
 	/**
-	* clean url (add http in front)
+	* clean url (remove http or https)
 	*
 	* @param $url
 	* @return string

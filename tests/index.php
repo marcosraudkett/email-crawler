@@ -17,7 +17,7 @@
 
 			/* printing the whole output (unique is true, if you set it to false you will also get all the empty elements) */
 			echo '<b>Output:</b> <br><br>';
-			$crawl = email_crawler::crawl_site($_POST['url'], true);
+			$crawl = email_crawler::crawl_site($_POST['url'], false);
 			
 			if($crawl != '')
 			{
