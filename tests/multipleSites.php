@@ -36,28 +36,26 @@
 			foreach($list as $email)
 			{
 				$crawl = email_crawler::crawl_site($email, true);
-			}
-
-			if($crawl != '')
-			{
-			
-				echo '<pre>';
-				
-				var_dump($crawl);
-				
-				echo '</pre>';
-
-
 				/* settings: unique: true, depth: null, print_type: list (comma separated) */
-				$list_crawl = email_crawler::crawl_site($_POST['url'], true, null, 'list');
+				$list_crawl = email_crawler::crawl_site($email, true, null, 'list');
+				if($crawl != '')
+				{
+					echo '<br>Site ('.$email.') ';
+					echo '<pre>';
+					
+					var_dump($crawl);
+					
+					echo '</pre>';
+				}
+
 				if($list_crawl != '')
 				{
-					echo '<b>Comma separated (unique):</b> <br><br>';
+					echo '<br><b>Comma separated (unique):</b> <br><br>';
 					print_r($list_crawl);
 				}
-			} else {
-				echo 'Nothing found!';
 			}
+
+			
 
 
 		}

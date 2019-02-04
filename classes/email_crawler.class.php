@@ -114,18 +114,26 @@ class email_crawler
 	        			default:
 	        			/* list */
 	        			case "list":
-	        				/* empty array */
-	        				$list = array();
-    						/* foreach results */
-	        				foreach($result['results'] as $result_to_list)
-	        				{
-	        					/* add to the empty array */
-	        					$list[] = $result_to_list['email'];
-	        				}
-							/* check if unique */
-	        				if($unique == true) { $list = implode(', ', array_unique($list)); } else { $list = implode(', ', $list); }
-							/* return email list */
-	        				return $list;
+	        				/* if results is not empty */
+	        				if($result['results'] != '')
+							{
+								/* make sure the results are not 0 */
+								if(count($result['results']) != 0) 
+								{
+			        				/* empty array */
+			        				$list = array();
+		    						/* foreach results */
+			        				foreach($result['results'] as $result)
+			        				{
+			        					/* add to the empty array */
+			        					$list[] = $result['email'];
+			        				}
+									/* check if unique */
+			        				if($unique == true) { $list = implode(', ', array_unique($list)); } else { $list = implode(', ', $list); }
+									/* return email list */
+			        				return $list;
+			        			}
+			        		}
 	        			break;
 
 	        			/* emails_only_plain */
@@ -133,7 +141,7 @@ class email_crawler
 							/* if results is not empty */
 	        				if($result['results'] != '')
 							{
-								/* count results */
+								/* make sure the results are not 0 */
 								if(count($result['results']) != 0) 
 								{
     								/* empty array */
