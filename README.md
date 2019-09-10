@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/marcosraudkett/simple-email-crawler.svg?branch=master)](https://travis-ci.org/marcosraudkett/simple-email-crawler)
-
 # Simple Email Crawler
 A PHP Email Crawler. Crawl a single website or multiple websites for email address(s) using simple_html_dom
 You can test this crawler here:
