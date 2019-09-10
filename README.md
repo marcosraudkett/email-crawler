@@ -49,7 +49,7 @@ Crawling a site
 <?php
   /* Your url that you wish to crawl */
   $url = 'http://example-site.com';
-  $crawler = new email_crawler($_POST['url'], false);
+  $crawler = new email_crawler($url, false);
   $crawl = $crawler->crawl_site();
   
   if($crawl['results'] != '')
@@ -79,7 +79,7 @@ Crawling a site (into a comma separated list)
   /* Your url that you wish to crawl */
   $url = 'http://example-site.com';
   /* settings: unique: true, depth: null, print_type: list (comma separated) */
-  $crawler = new email_crawler($_POST['url'], true, null, 'list');
+  $crawler = new email_crawler($url, true, null, 'list');
   $crawl = $crawler->crawl_site();
   if($crawl != '') { print_r($crawl); }
   
@@ -96,7 +96,7 @@ Crawling a site (plain list)
   /* Your url that you wish to crawl */
   $url = 'http://example-site.com';
   /* settings: unique: false, depth: null, print_type: emails_only_plain */
-  $crawler = new email_crawler($_POST['url'], false, null, 'emails_only_plain');
+  $crawler = new email_crawler($url, false, null, 'emails_only_plain');
   $crawl = $crawler->crawl_site();
   if($crawl != '') { print_r($crawl); }
   
