@@ -1,8 +1,8 @@
 <?php
-	/* include tests page menu */
-	require_once 'includes/menu.php';
 	/* inlcude autoloader or email_crawler */
 	require_once "../includes/init.php";
+	/* include tests page menu */
+	require_once 'includes/menu.php';
 
 	//if form is submitted
 	if(isset($_POST["crawl"])) 
@@ -15,7 +15,8 @@
 	        $_POST['url'] = str_replace("'", "&#39;", $_POST['url']);
 
 			/* settings: unique: true, depth: null, print_type: list (comma separated) */
-			$list_crawl = email_crawler::crawl_site($_POST['url'], true, null, 'list');
+			$crawler = new email_crawler($_POST['url'], false, null, 'list');
+			$list_crawl = $crawler->crawl_site();
 			if($list_crawl != '')
 			{
 				echo '<b>Comma separated (unique):</b> <br><br>';

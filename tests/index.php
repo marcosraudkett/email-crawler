@@ -1,8 +1,8 @@
 <?php
-	/* include tests page menu */
-	require_once 'includes/menu.php';
 	/* inlcude autoloader or email_crawler */
 	require_once "../includes/init.php";
+	/* include tests page menu */
+	require_once 'includes/menu.php';
 
 	//if form is submitted
 	if(isset($_POST["crawl"])) 
@@ -18,16 +18,22 @@
 
 			/* printing the whole output (unique is true, if you set it to false you will also get all the empty elements) */
 			echo '<b>Output:</b> <br><br>';
-			$crawl = email_crawler::crawl_site($_POST['url'], false);
+			$crawler = new email_crawler($_POST['url'], false);
+			$crawl = $crawler->crawl_site();
 			
+			/*
+				echo '<pre>';
+				
+				var_dump($crawler);
+
+				var_dump($test);
+				
+				echo '</pre>';
+			*/
+					
 			if($crawl != '')
 			{
 			
-				echo '<pre>';
-				
-				var_dump($crawl);
-				
-				echo '</pre>';
 
 
 				/* ========================================= */
@@ -49,22 +55,24 @@
 				/* ========================================= */
 
 				/* settings: unique: false, depth: null, print_type: emails_only_plain */
-				$emails_only = email_crawler::crawl_site($_POST['url'], false, null, 'emails_only_plain');
-				if($emails_only != '')
+				$crawler = new email_crawler($_POST['url'], false, null, 'emails_only_plain');
+				$crawl = $crawler->crawl_site();
+				if($crawl != '')
 				{
 					echo '<b>Plaintext (non-unique):</b> <br><br>';
-					print_r($emails_only);
+					print_r($crawl);
 					echo '<br><br>';
 				}
 
 				/* ========================================= */
 
 				/* settings: unique: true, depth: null, print_type: list (comma separated) */
-				$list_crawl = email_crawler::crawl_site($_POST['url'], true, null, 'list');
-				if($list_crawl != '')
+				$crawler = new email_crawler($_POST['url'], false, null, 'list');
+				$crawl = $crawler->crawl_site();
+				if($crawl != '')
 				{
 					echo '<b>Comma separated (unique):</b> <br><br>';
-					print_r($list_crawl);
+					print_r($crawl);
 				}
 			} else {
 				echo 'Nothing found!';
@@ -79,6 +87,6 @@
 <br>
 
 <form method="POST">
-	<input type="text" name="url" placeholder="website url" value="<?php if(isset($_POST['url'])): echo $_POST['url']; endif;?>">
+	<input type="text" name="url" placeholder="website url" value="<?php if(isset($_POST['url'])) { echo $_POST['url']; } else { echo 'https://marcosraudkett.com/mvrclabs/email-crawler/tests/test_pages/simple/'; }?>">
 	<button type="submit" name="crawl">Get Email(s)</button>
 </form>

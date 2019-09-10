@@ -13,10 +13,10 @@
 
 
 	
-	/* include tests page menu */
-	require_once 'includes/menu.php';
 	/* inlcude autoloader or email_crawler */
 	require_once "../includes/init.php";
+	/* include tests page menu */
+	require_once 'includes/menu.php';
 
 	//if form is submitted
 	if(isset($_POST["crawl"])) 
@@ -33,20 +33,23 @@
 			/* printing the whole output (unique is true, if you set it to false you will also get all the empty elements) */
 			echo '<b>Output:</b> <br><br>';
 			$list = explode(",", $_POST['url']);
-			foreach($list as $email)
+			foreach($list as $site)
 			{
-				$crawl = email_crawler::crawl_site($email, true);
-				/* settings: unique: true, depth: null, print_type: list (comma separated) */
-				$list_crawl = email_crawler::crawl_site($email, true, null, 'list');
+				$crawler = new email_crawler($site, true);
+				$crawl = $crawler->crawl_site();
+				
 				if($crawl != '')
 				{
-					echo '<br>Site ('.$email.') ';
+					echo '<br>Site ('.$site.') ';
 					echo '<pre>';
 					
 					var_dump($crawl);
 					
 					echo '</pre>';
 				}
+
+				$crawler_list = new email_crawler($site, true, true, null, 'list');
+				$list_crawl = $crawler_list->crawl_site();
 
 				if($list_crawl != '')
 				{

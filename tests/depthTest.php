@@ -1,8 +1,8 @@
 <?php
-	/* include tests page menu */
-	require_once 'includes/menu.php';
 	/* inlcude autoloader or email_crawler */
 	require_once "../includes/init.php";
+	/* include tests page menu */
+	require_once 'includes/menu.php';
 
 	//if form is submitted
 	if(isset($_POST["crawl"])) 
@@ -18,7 +18,8 @@
 
 			/* printing the whole output (unique is true, if you set it to false you will also get all the empty elements) */
 			echo '<b>Output:</b> <br><br>';
-			$crawl = email_crawler::crawl_site($_POST['url'], true, true);
+			$crawler = new email_crawler($_POST['url'], true, true);
+			$crawl = $crawler->crawl_site();
 			
 			
 			

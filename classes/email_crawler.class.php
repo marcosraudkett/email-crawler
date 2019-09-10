@@ -17,7 +17,7 @@
  * @author     Marcos Raudkett <info@marcosraudkett.com>
  * @copyright  2019 Marcos Raudkett
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @version    1.0.1
+ * @version    1.0.2
  */
 
 class email_crawler
@@ -26,28 +26,60 @@ class email_crawler
 	/**
      * @var string
      */
-	public $url;
+	protected $url;
+
+	/**
+     * @var string
+     */
+	protected $unique;
+
+	/**
+     * @var string
+     */
+	protected $depth;
+
+	/**
+     * @var string
+     */
+	protected $print_type;
+
+
+	/**
+	 * Class Constructor
+	 * @param string   $url   
+	 * @param string   $unique   
+	 * @param string   $depth   
+	 * @param string   $print_type   
+	 */
+	public function __construct($url, $unique = null, $depth = null, $print_type = null)
+	{
+		$this->url = $url;
+		$this->unique = $unique;
+		$this->depth = $depth;
+		$this->print_type = $print_type;
+	}
+
 
 	/**
 	* Crawl a remote site
 	* set depth to true if you wish to also crawl throught other pages on the target website.
 	*
 	* @param $url    	   - required     [string]
-	* @param $element 	   - required     [array]
+	* @param $unique 	   - not required [boolean]
 	* @param $depth   	   - not required [true / null]
 	* @param $print_type   - not required [list / emails_only_plain / null]
-	* @return array
+	* @return array / string
 	*/
-	public static function crawl_site($url, $unique = null, $depth = null, $print_type = null) 
+	public function crawl_site() 
 	{
 		/* useragent */
-		//self::set_useragent('SEC (http://whx.io/SEC)');
+		self::set_useragent('SEC (http://whx.io/SEC)');
 
 		/* if url is set*/
-		if(isset($url))
+		if(isset($this->url))
         { 
         	/* check url */
-        	$clean_url = self::clean_url($url);
+        	$clean_url = self::clean_url($this->url);
         	/* test url */
         	$test_url = self::test_url($clean_url);
 
@@ -60,7 +92,7 @@ class email_crawler
         		foreach($list_of_elements as $element) 
         		{
         			/* if depth is true */
-        			if($depth == true)
+        			if($this->depth == true)
         			{	
         				/* list of menuElements to crawl */
         				$list_of_menuElements = self::menuElements();
@@ -78,7 +110,7 @@ class email_crawler
         				/* crawl first page only */
     					$email = self::crawl_site_for_email($clean_url, $element);
         			}
-					if($depth == true)
+					if($this->depth == true)
 					{
 						/* if email is not empty */
 	        			if($email != '')
@@ -105,10 +137,10 @@ class email_crawler
         		}
 
 				/* check if print type isset */
-        		if(isset($print_type))
+        		if(isset($this->print_type))
         		{
 					/* switch for print_type */
-	        		switch($print_type)
+	        		switch($this->print_type)
 	        		{
 	        			/* default */
 	        			default:
@@ -129,7 +161,7 @@ class email_crawler
 			        					$list[] = $result['email'];
 			        				}
 									/* check if unique */
-			        				if($unique == true) { $list = implode(', ', array_unique($list)); } else { $list = implode(', ', $list); }
+			        				if($this->unique == true) { $list = implode(', ', array_unique($list)); } else { $list = implode(', ', $list); }
 									/* return email list */
 			        				return $list;
 			        			}
@@ -153,7 +185,7 @@ class email_crawler
 										$list[] = $result['email'];
 									}
 									/* check if unique */
-									if($unique == true) { $list = implode(' ', array_unique($list)); } else { $list = implode(' ', $list); }
+									if($this->unique == true) { $list = implode(' ', array_unique($list)); } else { $list = implode(' ', $list); }
 									/* return email list */
 									return $list;
 								}
@@ -161,12 +193,13 @@ class email_crawler
 	        			break;
 	        		}
         		} else {
+    			/* if no print type is set */
         			/* if result isset */
         			if(isset($result))
         			{
 
         				/* if unique true */
-	        			if($unique == true) 
+	        			if($this->unique == true) 
 						{
         					/* if results is array */
 							if(is_array($result))
@@ -186,12 +219,14 @@ class email_crawler
 
         	}
 
+        } else {
+        	return 'Undefined URL!';
         }
 
 	}
 
 	/**
-	* crawling
+	* crawl a site for emails (this only crawls a single page, look for depth_crawl_site_for_email for crawling the whole site)
 	*
 	* @param $url     - required     [string]
 	* @param $element - required     [array]
@@ -272,11 +307,11 @@ class email_crawler
 	}
 
 	/**
-	* depth crawling
+	* depth crawling (looks through different pages on the target site)
 	*
-	* @param $url     - required     [string]
-	* @param $element - required     [array]
-	* @param $depth   - not required [true / null]
+	* @param $url     		- required     [string]
+	* @param $element 		- required     [array]
+	* @param $menuElement   - required     [array]
 	* @return string
 	*/
 	public static function depth_crawl_site_for_email($url, $element, $menuElement) 
@@ -326,10 +361,10 @@ class email_crawler
 									{
 										/* all matches (not unique) */
 										$result = $match;
-										/* replacer */
-										$result = self::syntax_replacer($result);
 										/* remove spaces from email string */
 						    			$result = str_replace(' ', '', $result);
+										/* replacer */
+										$result = self::syntax_replacer($result);
 										/* validate email */
 										if(self::validate_email($result) == true)
 										{
@@ -348,10 +383,10 @@ class email_crawler
 						    		$result = str_replace('mailto:','', $match);
 						    		/* remove spaces from email string */
 						    		$result = str_replace(' ', '', $result);
-						    		/* clean out the parameters if it has any */
-									$result = strtok($result, '?');
 						    		/* replacer */
 						    		$result = self::syntax_replacer($result);
+						    		/* clean out the parameters if it has any */
+									$result = strtok($result, '?');
 						    		/* validate email */
 						    		if(self::validate_email($result) == true)
 									{
@@ -414,17 +449,17 @@ class email_crawler
 	}
 
 	/**
-	* emailSyntaxList
+	* Email Regex List
 	*
 	* @return array
 	*/
 	public static function emailPatternList() 
 	{
 
-		/* emailSyntaxList you wish to crawl through */
-		$emailSyntaxList = config::PATTERN_LIST();
-		/* return emailSyntaxList */
-		return $emailSyntaxList;
+		/* emailRegexList you wish to test */
+		$emailRegexList = config::PATTERN_LIST();
+		/* return emailRegexList */
+		return $emailRegexList;
 
 	}
 
@@ -475,7 +510,7 @@ class email_crawler
           $url_prefix = 'http://';
         }
 
-        $url = str_replace(array('http://','https://'), '', $url);
+        $url = str_replace(array('http://','https://','www.'), '', $url);
 
         return $url;
 
@@ -518,7 +553,7 @@ class email_crawler
 	}
 
 	/**
-	* check if $input_header_code matches with any codes in header_codes array
+	* checks if $input_header_code matches with any codes in header_codes array
 	*
 	* @param $input_header_code
 	* @return boolean
@@ -535,11 +570,11 @@ class email_crawler
 		{
 			if (strpos($input_header_code, $header_code) !== FALSE) 
 			{
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 
 	}
 
