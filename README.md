@@ -11,7 +11,7 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
   <li>Deep crawl (crawler navigates through the target site) (check classes/config.class.php) for controlling the path</li> 
   <li>Easily output into a comma separated list or in plaintext</li>
   <li>Bulk crawl websites (wip)</li>
-  <li>Filter out unique email address(s)</li>
+  <li>Filter out duplicate email address(s)</li>
   <li>Tests site connection and validates link before crawling</li>
   <li>Validates emails before returning to make sure their valid</li>
 </ul>
@@ -49,7 +49,8 @@ Crawling a site
 <?php
   /* Your url that you wish to crawl */
   $url = 'http://example-site.com';
-  $crawl = email_crawler::crawl_site($url);
+  $crawler = new email_crawler($_POST['url'], false);
+  $crawl = $crawler->crawl_site();
   
   if($crawl['results'] != '')
   {
@@ -78,7 +79,8 @@ Crawling a site (into a comma separated list)
   /* Your url that you wish to crawl */
   $url = 'http://example-site.com';
   /* settings: unique: true, depth: null, print_type: list (comma separated) */
-  $crawl = email_crawler::crawl_site($url, true, null, 'list');
+  $crawler = new email_crawler($_POST['url'], true, null, 'list');
+  $crawl = $crawler->crawl_site();
   if($crawl != '') { print_r($crawl); }
   
   /* 
@@ -94,7 +96,8 @@ Crawling a site (plain list)
   /* Your url that you wish to crawl */
   $url = 'http://example-site.com';
   /* settings: unique: false, depth: null, print_type: emails_only_plain */
-  $crawl = email_crawler::crawl_site($url, false, null, 'emails_only_plain');
+  $crawler = new email_crawler($_POST['url'], false, null, 'emails_only_plain');
+  $crawl = $crawler->crawl_site();
   if($crawl != '') { print_r($crawl); }
   
   /* 
