@@ -40,6 +40,6 @@
 <br>
 
 <form method="POST">
-	<input type="text" name="url" placeholder="website url" value="<?php if(isset($_POST['url'])): echo $_POST['url']; endif;?>">
+	<input type="text" name="url" placeholder="website url" value="<?php if(isset($_POST['url'])) { echo $_POST['url']; } else { echo 'https://marcosraudkett.com/mvrclabs/email-crawler/tests/test_pages/deep/'; }?>">
 	<button type="submit" name="crawl">Get Email(s)</button>
 </form>
