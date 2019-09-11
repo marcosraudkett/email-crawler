@@ -13,7 +13,7 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
   <li>Bulk crawl websites (wip)</li>
   <li>Filter out duplicate email address(s)</li>
   <li>Tests site connection and validates link before crawling</li>
-  <li>Validates emails before returning to make sure their valid</li>
+  <li>Validates emails before returning to make sure they are valid</li>
 </ul>
 
 
