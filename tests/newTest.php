@@ -5,7 +5,7 @@
 	require_once 'includes/menu.php';
 
 
-	$url = 'www.ideerada.ee';
+	$url = '';
 	$crawler = new email_crawler($url);
 	$crawl  = $crawler->crawl_site();
 
