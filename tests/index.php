@@ -67,7 +67,7 @@
 				/* ========================================= */
 
 				/* settings: unique: true, depth: null, print_type: list (comma separated) */
-				$crawler = new email_crawler($_POST['url'], false, null, 'list');
+				$crawler = new email_crawler($_POST['url'], true, null, 'list');
 				$crawl = $crawler->crawl_site();
 				if($crawl != '')
 				{
