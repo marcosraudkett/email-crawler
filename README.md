@@ -16,13 +16,6 @@ https://marcosraudkett.com/mvrclabs/email-crawler/tests/
   <li>Validates emails before returning to make sure they are valid</li>
 </ul>
 
-
-### todo
-- [x] Fix depth search (crawl through other pages on the target site)<br>
-- [ ] Multiple site support
-- [x] Fix matching bug
-- [x] Unique fix
-
 ### Installation
 ```
 git clone https://github.com/marcosraudkett/simple-email-crawler.git
