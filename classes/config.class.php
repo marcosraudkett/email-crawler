@@ -4,7 +4,7 @@
  * Email Crawler class
  * 
  *
- * PHP version 7
+ * PHP version 5.4 - 7
  *
  *
  * @category   config
@@ -17,6 +17,11 @@
 
 class config
 {
+	
+	/* update the simple_html_dom if your not using autoloader */
+	const = 
+		SIMPLE_HTML_DOM_DIRECTORY = '../vendor/simple_html_dom/simple_html_dom.php'
+	;
 
 	private static $PATTERN_LIST = array(
 		'/[\._a-zA-Z0-9-]+@[\._a-zA-Z0-9-]+/i', 
@@ -39,7 +44,7 @@ class config
 		'/[a-z0-9_\-\+\.]+\%\(at\)\%[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i',
 		'/[a-z0-9_\-\+\.]+\(ät\)[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i'
 	);
-
+	
 	private static $SYNTAX_LIST = array(
 		'@',  
 		'(at)', 
