@@ -26,7 +26,8 @@ Including with autoloader:
   require_once "/path/to/includes/init.php";
 ?>
 ```
-including without autoloader: 
+<details>
+  <summary>including without autoloader:</summary>
 
 ```php
 <?php
@@ -34,7 +35,11 @@ including without autoloader:
   require_once "/path/to/classes/email_crawler.class.php";
 ?>
 ```
-Crawling a site
+</details>
+
+<details>
+  <summary>Crawling a site</summary>
+  
 ```php
 <?php
   /* Your url that you wish to crawl */
@@ -62,8 +67,11 @@ Crawling a site
   */
 ?>
 ```
+</details>
 
-Crawling a site (into a comma separated list)
+<details>
+  <summary>Crawling a site (into a comma separated list)</summary>
+  
 ```php
 <?php
   /* Your url that you wish to crawl */
@@ -79,8 +87,11 @@ Crawling a site (into a comma separated list)
   */
 ?>
 ```
+</details>
 
-Crawling a site (plain list)
+<details>
+  <summary>Crawling a site (plain list)</summary>
+    
 ```php
 <?php
   /* Your url that you wish to crawl */
@@ -97,6 +108,7 @@ Crawling a site (plain list)
   
 ?>
 ```
+</details>
 
 ## Contributing
 Feel free to help this project or if you've found a bug then feel free to visit [the issues page](https://github.com/marcosraudkett/simple-email-crawler/issues).
