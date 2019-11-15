@@ -19,7 +19,7 @@ class config
 {
 	
 	/* update the simple_html_dom if your not using autoloader */
-	const = 
+	const
 		SIMPLE_HTML_DOM_DIRECTORY = '../vendor/simple_html_dom/simple_html_dom.php'
 	;
 
