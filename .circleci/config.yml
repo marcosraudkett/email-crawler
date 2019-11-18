@@ -4,13 +4,12 @@ jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
     docker: # run the steps with Docker 
       - image: circleci/php:7.1-node-browsers # ...with this image as the primary container; this is where all `steps` will run
-    working_directory: ~/tests/unit # directory where steps will run
+    working_directory: ~/sec # directory where steps will run
     steps: # a set of executable commands
       - run: git clone https://github.com/marcosraudkett/simple-email-crawler.git
       - run: sudo apt-get install wget
       - run: wget http://pear.php.net/go-pear.phar
       - run: php go-pear.phar
-      - run: cd simple-email-crawler/tests/unit
       # Run Simple Email Crawler Tests
-      - run: ./simple-email-crawler/tests/unit pear run-tests
+      - run: pear run-tests ./simple-email-crawler/tests/unit
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples  
