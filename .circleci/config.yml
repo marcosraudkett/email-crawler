@@ -6,10 +6,11 @@ jobs: # a collection of steps
       - image: circleci/php:7.1-node-browsers # ...with this image as the primary container; this is where all `steps` will run
     working_directory: ~/tests/unit # directory where steps will run
     steps: # a set of executable commands
+      - run: git clone https://github.com/marcosraudkett/simple-email-crawler.git
       - run: sudo apt-get install wget
       - run: wget http://pear.php.net/go-pear.phar
       - run: php go-pear.phar
-      - run: ls
+      - run: cd simple-email-crawler/tests/unit
       # Run Simple Email Crawler Tests
       - run: pear run-tests
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples  
