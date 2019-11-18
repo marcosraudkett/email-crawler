@@ -1,8 +1,11 @@
 <?php
 
 	/*	
-		Uncomment the line below if you're not using autoloader!
-		require_once '../vendor/simple_html_dom/simple_html_dom.php';
+	Uncomment the lines below if you're not using autoloader 
+	and change the simple_html_dom location inside configuration file.
+
+	require_once 'config.class.php'; 
+	require_once config::SIMPLE_HTML_DOM_DIRECTORY; 
 	*/
 
 /**
