@@ -5,7 +5,7 @@ Expecting -> info@examplemail.com, info@example.com, info@divexample.com, info@s
 --FILE--
 <?php
 /* inlcude autoloader or email_crawler */
-require_once "../../includes/init.php";
+require_once dirname(dirname(__FILE__)) . "/../includes/init.php";
 /* settings: unique: true, depth: null, print_type: list (comma separated) */
 $crawl_site = "https://marcosraudkett.com/mvrclabs/email-crawler/tests/test_pages/simple/";
 $crawler = new email_crawler($crawl_site, false, null, 'list');

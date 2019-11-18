@@ -10,8 +10,7 @@ jobs: # a collection of steps
       - run: sudo apt-get install wget
       - run: wget http://pear.php.net/go-pear.phar
       - run: php go-pear.phar
-    working_directory: ~/sec/simple-email-crawler/tests/unit # directory where steps will run
-    steps:
       # Run Simple Email Crawler Tests
-      - run: pear run-tests
+      - run: cd simple-email-crawler
+      - run: pear run-tests tests/unit
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples  
