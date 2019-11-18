@@ -1,18 +1,15 @@
 <?php
 
-/*	
-	Uncomment the lines below if you're not using autoloader 
-	and change the simple_html_dom location inside configuration file.
-
-	require_once 'config.class.php'; 
-	require_once config::SIMPLE_HTML_DOM_DIRECTORY; 
-*/
+	/*	
+		Uncomment the line below if you're not using autoloader!
+		require_once '../vendor/simple_html_dom/simple_html_dom.php';
+	*/
 
 /**
  * Email Crawler class
  *
  *
- * PHP version 5.4 - 7
+ * PHP version 7
  *
  *
  * @category   email_crawler
@@ -20,7 +17,7 @@
  * @author     Marcos Raudkett <info@marcosraudkett.com>
  * @copyright  2019 Marcos Raudkett
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @version    1.0.2
+ * @version    1.0.3
  */
 
 class email_crawler
@@ -76,7 +73,7 @@ class email_crawler
 	public function crawl_site() 
 	{
 		/* useragent */
-		self::set_useragent('SEC (http://whx.io/SEC)');
+		self::set_useragent('Simple Email Crawler (https://whx.io/SEC)');
 
 		/* if url is set*/
 		if(isset($this->url))
@@ -127,22 +124,22 @@ class email_crawler
 	        			}
 					} else {
 						/* if email is not empty */
-						if($email != '')
-						{
-								/* results */
-							$result['results'][] = array(
-								'element' => $element,
-								'email' => $email
-							);	
+	        			if($email != '')
+	        			{
+							/* results */
+		        			$result['results'][] = array(
+		        				'element' => $element,
+		        				'email' => $email
+		        			);	
 
-						}
+	        			}
 					}
         		}
 
-			/* check if print type isset */
+				/* check if print type isset */
         		if(isset($this->print_type))
         		{
-				/* switch for print_type */
+					/* switch for print_type */
 	        		switch($this->print_type)
 	        		{
 	        			/* default */
@@ -151,52 +148,52 @@ class email_crawler
 	        			case "list":
 	        				/* if results is not empty */
 	        				if($result['results'] != '')
-						{
-							/* make sure the results are not 0 */
-							if(count($result['results']) != 0) 
 							{
-								/* empty array */
-								$list = array();
-								/* foreach results */
-								foreach($result['results'] as $result)
+								/* make sure the results are not 0 */
+								if(count($result['results']) != 0) 
 								{
-									/* add to the empty array */
-									$list[] = $result['email'];
-								}
-								/* check if unique */
-								if($this->unique == true) { $list = implode(', ', array_unique($list)); } else { $list = implode(', ', $list); }
-								/* return email list */
-								return $list;
-							}
+			        				/* empty array */
+			        				$list = array();
+		    						/* foreach results */
+			        				foreach($result['results'] as $result)
+			        				{
+			        					/* add to the empty array */
+			        					$list[] = $result['email'];
+			        				}
+									/* check if unique */
+			        				if($this->unique == true) { $list = implode(', ', array_unique($list)); } else { $list = implode(', ', $list); }
+									/* return email list */
+			        				return $list;
+			        			}
 			        		}
 	        			break;
 
 	        			/* emails_only_plain */
 	        			case "emails_only_plain":
-						/* if results is not empty */
+							/* if results is not empty */
 	        				if($result['results'] != '')
-						{
-							/* make sure the results are not 0 */
-							if(count($result['results']) != 0) 
 							{
-								/* empty array */
-								$list = array();
-								/* foreach results */
-								foreach($result['results'] as $result) 
+								/* make sure the results are not 0 */
+								if(count($result['results']) != 0) 
 								{
-								/* add to the empty array */
-									$list[] = $result['email'];
+    								/* empty array */
+									$list = array();
+    								/* foreach results */
+									foreach($result['results'] as $result) 
+									{
+    									/* add to the empty array */
+										$list[] = $result['email'];
+									}
+									/* check if unique */
+									if($this->unique == true) { $list = implode(' ', array_unique($list)); } else { $list = implode(' ', $list); }
+									/* return email list */
+									return $list;
 								}
-								/* check if unique */
-								if($this->unique == true) { $list = implode(' ', array_unique($list)); } else { $list = implode(' ', $list); }
-								/* return email list */
-								return $list;
 							}
-						}
 	        			break;
 	        		}
         		} else {
-    				/* if no print type is set */
+    			/* if no print type is set */
         			/* if result isset */
         			if(isset($result))
         			{
@@ -205,21 +202,23 @@ class email_crawler
 	        			if($this->unique == true) 
 						{
         					/* if results is array */
-						if(is_array($result))
-						{
-							/* return unique results (array) */
-							return array_unique($result);
-						} else {
-							/* return results (array) */
-							return $result;
-						}
+							if(is_array($result))
+							{
+        						/* return unique results (array) */
+			        			return array_unique($result);
+							} else {
+        						/* return results (array) */
+			        			return $result;
+							}
 		        		} else {
 		        			/* return results */
 		        			return $result;
 		        		}
         			}
         		}
+
         	}
+
         } else {
         	return 'Undefined URL!';
         }
@@ -242,15 +241,15 @@ class email_crawler
 		$find_element = $get_html->find($element);
 		/* foreach element from elements(); */
 		foreach($find_element as $this_element) 
-    		{
+    	{
 
 			/* if the element is not a link but plaintext */
-			if($this_element != 'a') 
-			{
+    		if($this_element != 'a') 
+    		{
 				/* foreach emailPatternList */
-				foreach(self::emailPatternList() as $pattern)
-				{
-					/* match the element with pattern */
+	    		foreach(self::emailPatternList() as $pattern)
+	    		{
+    				/* match the element with pattern */
 					preg_match_all($pattern, $this_element->plaintext, $matches);
 					$list = array();
 					foreach($matches[0] as $match)
@@ -260,7 +259,7 @@ class email_crawler
 						/* replacer */
 						$result = self::syntax_replacer($result);
 						/* remove spaces from email string */
-						$result = str_replace(' ', '', $result);
+			    		$result = str_replace(' ', '', $result);
 						/* validate email */
 						if(self::validate_email($result) == true)
 						{
@@ -271,39 +270,39 @@ class email_crawler
 					}
 					$list = implode(' ', $list);
 				}
-			} else {
-				$list = array();
+    		} else {
+    			$list = array();
 				foreach($this_element->href as $match)
 				{
-					/* make mailto: empty inside href */
-					$result = str_replace('mailto:','', $match);
-					/* clean out the parameters if it has any */
+		    		/* make mailto: empty inside href */
+		    		$result = str_replace('mailto:','', $match);
+		    		/* clean out the parameters if it has any */
 					$result = strtok($result, '?');
-					/* replacer */
-					$result = self::syntax_replacer($result);
-					/* remove spaces from email string */
-					$result = str_replace(' ', '', $result);
-					/* validate email */
-					if(self::validate_email($result) == true)
+		    		/* replacer */
+		    		$result = self::syntax_replacer($result);
+		    		/* remove spaces from email string */
+		    		$result = str_replace(' ', '', $result);
+		    		/* validate email */
+		    		if(self::validate_email($result) == true)
 					{
 						$result = $result;
 					}
-					$list[] = $result;
-				}
-				$list = implode(' ', $list);
-			}
+		    		$list[] = $result;
+		    	}
+		    	$list = implode(' ', $list);
+    		}
 
-			if(isset($result))
-			{	
+    		if(isset($result))
+    		{	
 				$result = explode(' ', $result);
 				foreach($result as $results)
 				{
 					/* return validated email */
 					return $results;
 				}
-			}
-
     		}
+
+    	}
 
 	}
 
@@ -336,7 +335,7 @@ class email_crawler
 				/* make sure that it's a valid link */
 				if(self::validate_url($menuLinkContent) == true)
 				{
-				/* check url */
+					/* check url */
 		        	$clean_url = self::clean_url($menuLinkContent);
 		        	/* test url */
 		        	$test_url = self::test_url($clean_url);
@@ -345,55 +344,55 @@ class email_crawler
 			        	/* get that page html */
 			        	$this_page = file_get_html('http://'.$clean_url);
 			        	/* find all url elements */
-					$find_depth_element = $this_page->find($element);
-					/* foreach element on that page */
-					foreach($find_depth_element as $this_element) 
+						$find_depth_element = $this_page->find($element);
+						/* foreach element on that page */
+						foreach($find_depth_element as $this_element) 
 				    	{
 			    			/* if the element is not a link but plaintext */
 				    		if($this_element != 'a') 
 				    		{
-							/* foreach emailPatternList */
+								/* foreach emailPatternList */
 					    		foreach(self::emailPatternList() as $pattern)
 					    		{
 				    				/* match the element with pattern */
-								preg_match_all($pattern, $this_element->plaintext, $matches);
-								$list = array();
-								foreach($matches[0] as $match)
+									preg_match_all($pattern, $this_element->plaintext, $matches);
+									$list = array();
+									foreach($matches[0] as $match)
+									{
+										/* all matches (not unique) */
+										$result = $match;
+										/* remove spaces from email string */
+						    			$result = str_replace(' ', '', $result);
+										/* replacer */
+										$result = self::syntax_replacer($result);
+										/* validate email */
+										if(self::validate_email($result) == true)
+										{
+											$result = $result;
+										}
+										/* result */
+										$list[] = $result;
+									}
+									$list = implode(' ', $list);
+								}
+				    		} else {
+				    			$list = array();
+								foreach($this_element->href as $match)
 								{
-									/* all matches (not unique) */
-									$result = $match;
-									/* remove spaces from email string */
-									$result = str_replace(' ', '', $result);
-									/* replacer */
-									$result = self::syntax_replacer($result);
-									/* validate email */
-									if(self::validate_email($result) == true)
+						    		/* make mailto: empty inside href */
+						    		$result = str_replace('mailto:','', $match);
+						    		/* remove spaces from email string */
+						    		$result = str_replace(' ', '', $result);
+						    		/* replacer */
+						    		$result = self::syntax_replacer($result);
+						    		/* clean out the parameters if it has any */
+									$result = strtok($result, '?');
+						    		/* validate email */
+						    		if(self::validate_email($result) == true)
 									{
 										$result = $result;
 									}
-									/* result */
-									$list[] = $result;
-								}
-								$list = implode(' ', $list);
-							}
-				    		} else {
-				    			$list = array();
-							foreach($this_element->href as $match)
-							{
-								/* make mailto: empty inside href */
-								$result = str_replace('mailto:','', $match);
-								/* remove spaces from email string */
-								$result = str_replace(' ', '', $result);
-								/* replacer */
-								$result = self::syntax_replacer($result);
-								/* clean out the parameters if it has any */
-								$result = strtok($result, '?');
-								/* validate email */
-								if(self::validate_email($result) == true)
-								{
-									$result = $result;
-								}
-								$list[] = $result;
+						    		$list[] = $result;
 						    	}
 						    	$list = implode(' ', $list);
 				    		}
@@ -401,11 +400,12 @@ class email_crawler
 				    		if(isset($result))
 				    		{	
 				    			$result = explode(' ', $result);
-							foreach($result as $results)
-							{
-								/* return validated email */
-								return $results;
-							}
+								foreach($result as $results)
+								{
+				    				//var_dump($result);
+									/* return validated email */
+									return $results;
+								}
 				    		}
 
 				    	}
@@ -505,14 +505,14 @@ class email_crawler
 
 		if (preg_match('/^https/', $url)) 
 		{
-		  	$url_prefix = 'https://';
-		} else {
-			$url_prefix = 'http://';
-		}
+          $url_prefix = 'https://';
+        } else {
+          $url_prefix = 'http://';
+        }
 
-		$url = str_replace(array('http://','https://','www.'), '', $url);
+        $url = str_replace(array('http://','https://','www.'), '', $url);
 
-		return $url;
+        return $url;
 
 	}
 
@@ -586,8 +586,9 @@ class email_crawler
 	*/
 	public static function validate_url($url) 
 	{
-		$is_valid = (filter_var($url, FILTER_VALIDATE_URL)) ? true : false;
-		return $is_valid;
+
+		return (filter_var($url, FILTER_VALIDATE_URL)) ? true : false;
+
 	}
 
 	/**
@@ -598,8 +599,9 @@ class email_crawler
 	*/
 	public static function validate_email($email_address) 
 	{
-		$is_valid = (filter_var($email_address, FILTER_VALIDATE_EMAIL)) ? true : false;
-		return $is_valid;
+
+		return (filter_var($email_address, FILTER_VALIDATE_EMAIL)) ? true : false;
+
 	}
 
 	/**
