@@ -1,0 +1,16 @@
+{
+    "name": "marcos-raudkett/php-email-crawler",
+    "type": "library",
+    "description": "PHP Website Email Crawler, for crawling websites for emails.",
+    "keywords": ["php","website","email","crawler"],
+    "homepage": "https://marcosraudkett.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcos Raudkett",
+            "email": "info@marcosraudkett.com",
+            "homepage": "https://marcosraudkett.com/",
+            "role": "Developer"
+        }
+    ],
+}
