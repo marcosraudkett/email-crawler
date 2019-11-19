@@ -1,5 +1,5 @@
 {
-    "name": "marcos-raudkett/php-email-crawler",
+    "name": "mvrc/php-email-crawler",
     "type": "library",
     "description": "PHP Website Email Crawler, for crawling websites for emails.",
     "keywords": ["php","website","email","crawler"],
