@@ -76,7 +76,7 @@ class email_crawler
 	public function crawl_site() 
 	{
 		/* useragent */
-		self::set_useragent('Simple Email Crawler (https://whx.io/SEC)');
+		self::set_useragent('Simple Email Crawler (https://tl.gy/SEC)');
 
 		/* if url is set*/
 		if(isset($this->url))
